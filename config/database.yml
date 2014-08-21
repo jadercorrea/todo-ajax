@@ -1,0 +1,15 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+development:
+  <<: *default
+  database: todo-ajax_development
+test:
+  <<: *default
+  database: todo-ajax_test
+production:
+  <<: *default
+  database: todo-ajax_production
+  username: todo-ajax
+  password: <%= ENV['TODO-AJAX_DATABASE_PASSWORD'] %>
