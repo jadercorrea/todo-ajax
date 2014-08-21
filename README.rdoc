@@ -1,3 +1,22 @@
 == ToDo - Ajax
 
 ToDo test app with ajax.
+
+Especificações:
+
+Para criar uma lista:
+- o usuário preenche um nome para lista
+- ao pressionar 'enter' a lista de tarefas é criada, após isso já deve ser possível adicionar tarefas
+
+Para adicionar tarefas:
+- será feito através de um campo texto
+- ao pressionar 'enter' a tarefa deve ser na lista
+
+Na lista de tarefas o usuário pode:
+- marcar uma tarefa como realizada
+- retornar uma tarefa para o estado de pendente
+- excluir uma tarefa
+
+Alguns pontos importantes:
+A iteração do usuário na lista de tarefa seja feita sem recarregar a página a cada ação executada.
+O visual da lista de tarefas deve ser agrádavel, pode ser bem simples mas demonstrar conhecimentos básicos de CSS é importante.

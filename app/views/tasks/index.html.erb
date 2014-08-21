@@ -1,0 +1,11 @@
+<%- model_class = Task -%>
+
+<%= render :partial => 'form', locals: { task: @task} %>
+
+<table class="table table-striped js_tasks" id="tasks">
+  <tbody>
+    <% @tasks.each do |task| %>
+      <%= render partial: 'task', locals: {task: task} %>
+    <% end %>
+  </tbody>
+</table>
