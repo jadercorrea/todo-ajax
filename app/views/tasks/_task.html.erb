@@ -1,4 +1,4 @@
-<tr id= <%= "task_id_#{task.id}" %>, class= <%= task.finished == true ? 'odd' : 'even' %>>
+<tr id= <%= "task_id_#{task.id}" %> class= <%= task.finished == true ? 'odd' : 'even' %>>
   <td class= 'check'>
     <%= simple_form_for task, remote: true do |f| %>
       <%= f.input_field :finished, as: :boolean %>

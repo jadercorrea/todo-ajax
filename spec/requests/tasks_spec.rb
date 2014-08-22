@@ -17,7 +17,7 @@ RSpec.describe "Tasks", :type => :request do
     end
   end
 
-  context '.update task' do
+  context '.update_task' do
     it 'clicks finished checkbox' do
       visit tasks_path
       expect(page).to have_content('Factory Task')
@@ -44,7 +44,7 @@ RSpec.describe "Tasks", :type => :request do
     end
   end
 
-  context '.delete task' do
+  context '.delete_task' do
     it 'clicks delete button and removes it' do
       visit tasks_path
       expect(page).to have_content('Factory Task')
@@ -56,17 +56,32 @@ RSpec.describe "Tasks", :type => :request do
     end
   end
 
-  pending '.delete subtask' do
+  context '.delete_subtask' do
     it 'clicks delete button and removes it' do
       visit tasks_path
-      expect(page).not_to have_content('Finished Task')
-      expect(page).to have_content('Finished Sub1')
+      expect(page).to have_content('Factory Task')
 
-      find(:xpath, "//tr[contains(.,'Finished Sub1')]/td/a", :text => 'Delete').click
+      click_link 'Factory Task'
+      expect(page).to have_content('Factory SubTask')
 
-      expect(page).not_to have_content('Finished Sub1')
-      expect(page).to have_content('Finished Task')
-      expect(page).to have_content('Finished Sub2')
+      page.execute_script("$('[id^=sub_task_id_1]').remove()")
+      expect(page).not_to have_content('Factory SubTask')
+    end
+  end
+
+  context '.update_sub_task' do
+    it 'clicks finished checkbox' do
+      visit tasks_path
+      expect(page).to have_content('Factory Task')
+
+      click_link 'Factory Task'
+      expect(page).to have_content('Factory SubTask')
+
+      within(:xpath, ".//tr[contains(@id, 'sub_task_id_1')]") do
+        checkbox = find(:xpath, "(.//input[@type='checkbox'])")
+        checkbox.set(true)
+        expect(checkbox).to be_checked
+      end
     end
   end
 end

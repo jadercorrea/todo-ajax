@@ -1,0 +1,4 @@
+<%= simple_form_for @sub_task, remote: true do |f| %>
+  <%= f.input_field :description, placeholder: 'Sub tarefa...' %>
+  <%= f.hidden_field :task_id, value: params[:task_id] %>
+<% end %>
