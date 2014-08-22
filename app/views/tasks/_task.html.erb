@@ -1,10 +1,10 @@
 <tr id= <%= "task_id_#{task.id}" %> class= <%= task.finished == true ? 'odd' : 'even' %>>
   <td class= 'check'>
-    <%= simple_form_for task, remote: true do |f| %>
+    <%= simple_form_for task, url: task_path(task), remote: true do |f| %>
       <%= f.input_field :finished, as: :boolean %>
     <% end %>
   </td>
-  <td><%= link_to task.description, sub_tasks_path(task_id: task.id) %></td>
+  <td><%= link_to task.description, task_path(task) %></td>
   <td>
     <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
       task_path(task),

@@ -1,3 +1,6 @@
-<%= simple_form_for @task, remote: true do |f| %>
+<%= simple_form_for task, url: tasks_path, remote: true do |f| %>
   <%= f.input_field :description, placeholder: 'Eu tenho que...', size: 100 %>
+  <% if task.parent.present? %>
+    <%= f.hidden_field :parent_id, value: task.parent_id %>
+  <% end %>
 <% end %>

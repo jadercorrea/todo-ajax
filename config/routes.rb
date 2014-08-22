@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  resources :tasks
-  resources :sub_tasks
+  resources :tasks, only: [:index, :show, :create, :update, :destroy]
 
-  root :to => redirect('tasks')
+  root :to =>  "tasks#index"
 end
