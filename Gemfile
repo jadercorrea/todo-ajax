@@ -13,6 +13,7 @@ gem 'therubyracer'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
 gem 'simple_form'
+gem 'execjs'
 
 group :test do
   gem 'factory_girl_rails'

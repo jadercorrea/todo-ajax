@@ -4,14 +4,13 @@ RSpec.describe "Tasks", :type => :request do
   context '.create_task' do
     it 'fills task description and saves it' do
       visit tasks_path
-      expect(page).to have_content('Factory Task')
-
-      fill_in 'task_description', with: 'Created Task'
+      fill_in 'task_description', with: 'Create task'
       page.execute_script("$('form#new_task').submit()")
 
-      expect(page).to have_content('Created Task')
+      expect(page).to have_content('Create task')
+      last_task_id = Task.last.id.to_s
 
-      within(:xpath, ".//tr[contains(@id, 'task_id_2')]") do
+      within(:xpath, ".//tr[contains(@id, 'task_id_#{last_task_id}')]") do
         expect(find(:xpath, "(.//input[@type='checkbox'])")).not_to be_checked
       end
     end
@@ -20,9 +19,13 @@ RSpec.describe "Tasks", :type => :request do
   context '.update_task' do
     it 'clicks finished checkbox' do
       visit tasks_path
-      expect(page).to have_content('Factory Task')
+      fill_in 'task_description', with: 'Update task'
+      page.execute_script("$('form#new_task').submit()")
 
-      within(:xpath, ".//tr[contains(@id, 'task_id_1')]") do
+      expect(page).to have_content('Update task')
+      last_task_id = Task.last.id.to_s
+
+      within(:xpath, ".//tr[contains(@id, 'task_id_#{last_task_id}')]") do
         checkbox = find(:xpath, "(.//input[@type='checkbox'])")
         checkbox.set(true)
         expect(checkbox).to be_checked
@@ -33,51 +36,70 @@ RSpec.describe "Tasks", :type => :request do
   context '.create_subtask' do
     it 'fills the subtask description and saves it' do
       visit tasks_path
-      expect(page).to have_content('Factory Task')
-      click_link 'Factory Task'
+      fill_in 'task_description', with: 'Create subtask parent'
+      page.execute_script("$('form#new_task').submit()")
 
-      fill_in 'sub_task_description', with: 'Created Subtask'
-      page.execute_script("$('form#new_sub_task').submit()")
+      expect(page).to have_content('Create subtask parent')
 
-      expect(page).to have_content('Created Subtask')
-      expect(find(:xpath, "//tr[contains(.,'Created Subtask')]/td/a")).not_to be_checked
+      click_link 'Create subtask parent'
+      fill_in 'task_description', with: 'Create subtask children'
+      page.execute_script("$('form#new_task').submit()")
+
+      expect(page).to have_content('Create subtask children')
+      expect(page).not_to have_content('Create subtask parent')
     end
   end
 
   context '.delete_task' do
     it 'clicks delete button and removes it' do
       visit tasks_path
-      expect(page).to have_content('Factory Task')
+      fill_in 'task_description', with: 'Delete task'
+      page.execute_script("$('form#new_task').submit()")
 
-      find(:xpath, ".//tr[contains(@id, 'task_id_1')]", text: 'Delete').click
+      expect(page).to have_content('Delete task')
+      last_task_id = Task.last.id.to_s
 
-      page.execute_script("$('[id^=task_id_1]').remove()")
-      expect(page).not_to have_content('Factory Task')
+      page.execute_script("$('[id^=task_id_#{last_task_id}]').remove()")
+      expect(page).not_to have_content('Delete task')
     end
   end
 
   context '.delete_subtask' do
     it 'clicks delete button and removes it' do
       visit tasks_path
-      expect(page).to have_content('Factory Task')
+      fill_in 'task_description', with: 'Delete subtask parent'
+      page.execute_script("$('form#new_task').submit()")
 
-      click_link 'Factory Task'
-      expect(page).to have_content('Factory SubTask')
+      expect(page).to have_content('Delete subtask parent')
 
-      page.execute_script("$('[id^=sub_task_id_1]').remove()")
-      expect(page).not_to have_content('Factory SubTask')
+      click_link 'Delete subtask parent'
+      fill_in 'task_description', with: 'Delete subtask children'
+      page.execute_script("$('form#new_task').submit()")
+
+      expect(page).to have_content('Delete subtask children')
+      last_task_id = Task.last.id.to_s
+
+      page.execute_script("$('[id^=task_id_#{last_task_id}]').remove()")
+      expect(page).not_to have_content('Delete subtask children')
     end
   end
 
   context '.update_sub_task' do
     it 'clicks finished checkbox' do
       visit tasks_path
-      expect(page).to have_content('Factory Task')
+      fill_in 'task_description', with: 'Update subtask parent'
+      page.execute_script("$('form#new_task').submit()")
 
-      click_link 'Factory Task'
-      expect(page).to have_content('Factory SubTask')
+      expect(page).to have_content('Update subtask parent')
 
-      within(:xpath, ".//tr[contains(@id, 'sub_task_id_1')]") do
+      click_link 'Update subtask parent'
+      fill_in 'task_description', with: 'Update subtask children'
+      page.execute_script("$('form#new_task').submit()")
+
+      expect(page).to have_content('Update subtask children')
+      last_task_id = Task.last.id.to_s
+
+      within(:xpath, ".//tr[contains(@id, 'task_id_#{last_task_id}')]") do
         checkbox = find(:xpath, "(.//input[@type='checkbox'])")
         checkbox.set(true)
         expect(checkbox).to be_checked

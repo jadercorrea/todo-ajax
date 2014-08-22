@@ -18,8 +18,6 @@ class TasksController < ApplicationController
     respond_to do |format|
       if @task.save
         format.js {}
-      else
-        format.js {}
       end
     end
   end
@@ -28,7 +26,6 @@ class TasksController < ApplicationController
     respond_to do |format|
       if @task.update(task_params)
         format.js {}
-      else
       end
     end
   end

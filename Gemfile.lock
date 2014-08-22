@@ -194,6 +194,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 4.0.0)
   database_cleaner
+  execjs
   factory_girl_rails
   jbuilder (~> 2.0)
   jquery-rails
