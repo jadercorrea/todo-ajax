@@ -1,6 +1,6 @@
 == ToDo - Ajax
 
-ToDo test app with ajax.
+App de exemplo usando ajax para referencia em aulas de codigo.
 
 Especificações:
 
